@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зомби Апокалипсис</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        
+        #gameContainer {
+            position: relative;
+            border: 2px solid #333;
+        }
+        
+        canvas {
+            display: block;
+            background: #2d2d2d;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 16px;
+            z-index: 10;
+        }
+        
+        #playerStats {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 14px;
+            z-index: 10;
+        }
+        
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 20;
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        #startMenu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 40px;
+            border: 3px solid #4CAF50;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 40;
+        }
+        
+        .button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        
+        .button:hover {
+            background: #45a049;
+        }
+        
+        .menu-title {
+            font-size: 36px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: white;
+            font-size: 12px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <div id="startMenu">
+            <div class="menu-title">🧟 ЗОМБИ АПОКАЛИПСИС</div>
+            <div style="margin-bottom: 30px;">Выживи как можно дольше!</div>
+            <button class="button" onclick="if(window.game) game.startGame()">Начать игру</button>
+            <button class="button" onclick="if(window.game) game.showInstructions()">Управление</button>
+        </div>
+        
+        <div id="ui">
+            <div>❤️ Здоровье: <span id="health">100</span></div>
+            <div>🔫 Патроны: <span id="ammo">30</span></div>
+            <div>🧟 Убито: <span id="kills">0</span></div>
+            <div>📊 Волна: <span id="wave">1</span></div>
+            <div>🏆 Очки: <span id="score">0</span></div>
+            <div style="font-size: 12px; color: #FFD700;">🎯 Пуль: <span id="bulletCount">0</span></div>
+        </div>
+        
+        <div id="playerStats">
+            <div>Уровень: <span id="playerLevel">1</span></div>
+            <div>Опыт: <span id="playerExp">0</span>/<span id="playerExpNext">100</span></div>
+            <div>Скилл-поинты: <span id="skillPoints">0</span></div>
+        </div>
+        
+        <div id="controls">
+            <div>WASD - Движение | Мышь - Поворот и стрельба | ESC - Пауза</div>
+        </div>
+        
+        <div id="gameOver">
+            <h2>☠️ Игра окончена!</h2>
+            <p>Убито зомби: <span id="finalKills">0</span></p>
+            <p>Итоговые очки: <span id="finalScore">0</span></p>
+            <p>Достигнутая волна: <span id="finalWave">1</span></p>
+            <p>Достигнутый уровень: <span id="finalLevel">1</span></p>
+            <button class="button" onclick="if(window.game) game.restart()">Начать заново</button>
+            <button class="button" onclick="if(window.game) game.showStartMenu()">Главное меню</button>
+        </div>
+    </div>
+
+    <!-- Загружаем скрипты в правильном порядке -->
+    <script src="js/utils.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/zombie.js"></script>
+    <script src="js/zombieTypes.js"></script>
+    <script src="js/item.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
